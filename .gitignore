@@ -1,4 +1,10 @@
+# IDE
 .idea
+*.iml
+*.ipr
+*.iws
+.vscode
+
 
 # node
 node_modules
@@ -6,12 +12,13 @@ node/stroeer
 bin/protoc
 *.tgz
 
-# java
-java/build
-java/.gradle
-java/src/main/java
-.gradle
-*.iml
-*.ipr
-*.iws
+# libs
 protoc-gen-grpc-java
+
+# java
+java/**
+.gradle/*
+
+
+
+
