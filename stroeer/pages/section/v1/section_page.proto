@@ -13,12 +13,58 @@ message SectionPage {
 }
 
 message Stage {
-  repeated stroeer.core.v1.Article articles = 1;
+  repeated StageChild stage_children = 1;
   StageConfiguration stage_configuration = 2;
-  repeated Stage stages = 3;
 }
 
-message StageConfiguration {
+message StageChild {
+  oneof child_type {
+    ArticleChild article_child = 1;
+    AdChild ad_child = 2;
+    Stage stage_child = 3;
+  }
+  ChildWidth child_grid_width = 11;
+}
+
+message AdChild {
   map<string, string> fields = 1;
-  string layout = 2;
+}
+
+message ArticleChild {
+  stroeer.core.v1.Article article = 1;
+  map<string, string> fields = 2;
+  TeaserLayout teaser_layout = 3;
+}
+
+enum TeaserLayout {
+  TEASER_LAYOUT_DEFAULT = 0;
+  TEASER_LAYOUT_HERO = 1;
+  TEASER_LAYOUT_CLUSTER = 2;
+  TEASER_LAYOUT_STORY = 4;
+  TEASER_LAYOUT_BULLET_ITEM = 5;
+}
+
+enum ChildWidth {
+  DEFAULT = 0;
+  FULL = 1;
+  HALF = 2;
+  reserved 3, 5 to 7; // use indices like the actual denomitators
+  QUARTER = 4;
+  EIGHTHS = 8;
+  FULL_PAGE = 9;
+}
+
+ /* possible problems:
+   - linkout as 'string' isn't in sync with the actual section tree
+   - where to derive position from for the 'linkout'?
+ */
+message StageConfiguration {
+  /* stage labels
+     e.g.: ["title":"Coronavirus", "subtitle":"Alle News und Informationen"]
+     and overrides
+     e.g.: ["title_size":"SMALL", "style":"COLOR_ALPINE"]
+  */
+  map<string, string> fields = 1;
+  // fields vs own property?
+  string stage_layout = 2;
 }
